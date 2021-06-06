@@ -64,12 +64,12 @@ class MsdfgenConan(ConanFile):
                               "\"lib/*.cpp\"", "")
         tools.replace_in_file(cmakelists,
                               "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
-                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen ${CONAN_LIBS})")
+                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen ${CONAN_LIBS})")
 
         # Fix link
         tools.replace_in_file(cmakelists,
-                              "target_link_libraries(msdfgen-standalone PRIVATE msdfgen::msdfgen msdfgen::msdfgen-ext)",
-                              "target_link_libraries(msdfgen-standalone PRIVATE msdfgen msdfgen-ext)")
+                              "set_target_properties(msdfgen-standalone PROPERTIES ARCHIVE_OUTPUT_DIRECTORY archive OUTPUT_NAME msdfgen)",
+                              "set_target_properties(msdfgen-standalone PROPERTIES OUTPUT_NAME msdfgen)")
 
     def _configure_cmake(self):
         if self._cmake:
