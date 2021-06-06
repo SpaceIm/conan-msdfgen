@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 import os
 
 required_conan_version = ">=1.33.0"
@@ -46,6 +47,8 @@ class MsdfgenConan(ConanFile):
     def validate(self):
         if self.settings.compiler.get_safe("cppstd"):
             tools.check_min_cppstd(self, 11)
+        if self.settings.compiler == "Visual Studio" and self.options.shared:
+            raise ConanInvalidConfiguration("msdfgen shared not supported by Visual Studio")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version],
