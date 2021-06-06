@@ -43,8 +43,8 @@ class MsdfgenConan(ConanFile):
 
     def requirements(self):
         self.requires("freetype/2.10.4")
-        self.requires("lodepng/cci.20200615")
-        self.requires("tinyxml2/8.0.0")
+        # self.requires("lodepng/cci.20200615")
+        # self.requires("tinyxml2/8.0.0")
 
     def validate(self):
         if self.settings.compiler.get_safe("cppstd"):
@@ -59,17 +59,12 @@ class MsdfgenConan(ConanFile):
     def _patch_sources(self):
         cmakelists = os.path.join(self._source_subfolder, "CMakeLists.txt")
         # unvendor lodepng & tinyxml2
-        tools.rmdir(os.path.join(self._source_subfolder, "lib"))
-        tools.replace_in_file(cmakelists,
-                              "\"lib/*.cpp\"", "")
-        tools.replace_in_file(cmakelists,
-                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
-                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen ${CONAN_LIBS})")
-
-        # Fix link
-        tools.replace_in_file(cmakelists,
-                              "set_target_properties(msdfgen-standalone PROPERTIES ARCHIVE_OUTPUT_DIRECTORY archive OUTPUT_NAME msdfgen)",
-                              "set_target_properties(msdfgen-standalone PROPERTIES OUTPUT_NAME msdfgen)")
+        # tools.rmdir(os.path.join(self._source_subfolder, "lib"))
+        # tools.replace_in_file(cmakelists,
+        #                       "\"lib/*.cpp\"", "")
+        # tools.replace_in_file(cmakelists,
+        #                       "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
+        #                       "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen ${CONAN_LIBS})")
 
     def _configure_cmake(self):
         if self._cmake:
@@ -108,7 +103,7 @@ class MsdfgenConan(ConanFile):
         self.cpp_info.components["msdfgen-ext"].libs = ["msdfgen-ext"]
         self.cpp_info.components["msdfgen-ext"].requires = [
             "_msdfgen", "freetype::freetype",
-            "lodepng::lodepng", "tinyxml2::tinyxml2",
+        #     "lodepng::lodepng", "tinyxml2::tinyxml2",
         ]
 
         if self.options.utility:
