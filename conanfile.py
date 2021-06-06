@@ -57,13 +57,19 @@ class MsdfgenConan(ConanFile):
                   destination=self._source_subfolder, strip_root=True)
 
     def _patch_sources(self):
+        cmakelists = os.path.join(self._source_subfolder, "CMakeLists.txt")
         # unvendor lodepng & tinyxml2
         tools.rmdir(os.path.join(self._source_subfolder, "lib"))
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
+        tools.replace_in_file(cmakelists,
                               "\"lib/*.cpp\"", "")
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
+        tools.replace_in_file(cmakelists,
                               "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
-                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype CONAN_PKG::lodepng CONAN_PKG::tinyxml2)")
+                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen ${CONAN_LIBS})")
+
+        # Fix link
+        tools.replace_in_file(cmakelists,
+                              "target_link_libraries(msdfgen-standalone PRIVATE msdfgen::msdfgen msdfgen::msdfgen-ext)",
+                              "target_link_libraries(msdfgen-standalone PRIVATE msdfgen msdfgen-ext)")
 
     def _configure_cmake(self):
         if self._cmake:
