@@ -62,7 +62,7 @@ class MsdfgenConan(ConanFile):
         tools.rmdir(os.path.join(self._source_subfolder, "lib"))
         tools.replace_in_file(cmakelists, "\"lib/*.cpp\"", "")
         tools.replace_in_file(cmakelists,
-                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen Freetype::Freetype)",
+                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
                               "target_link_libraries(msdfgen-ext PUBLIC msdfgen Freetype::Freetype CONAN_PKG::lodepng CONAN_PKG::tinyxml2)")
         tools.replace_in_file(cmakelists,
                               "set_target_properties(msdfgen-standalone PROPERTIES ARCHIVE_OUTPUT_DIRECTORY archive OUTPUT_NAME msdfgen)",
