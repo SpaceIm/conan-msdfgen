@@ -71,9 +71,10 @@ class MsdfgenConan(ConanFile):
                               "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
                               "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen ${CONAN_LIBS})")
         # very weird but required for Visual Studio when libs are unvendored (at least for Ninja generator)
-        tools.replace_in_file(cmakelists,
-                              "set_target_properties(msdfgen-standalone PROPERTIES ARCHIVE_OUTPUT_DIRECTORY archive OUTPUT_NAME msdfgen)",
-                              "set_target_properties(msdfgen-standalone PROPERTIES OUTPUT_NAME msdfgen IMPORT_PREFIX lib)")
+        if self.settings.compiler == "Visual Studio":
+            tools.replace_in_file(cmakelists,
+                                  "set_target_properties(msdfgen-standalone PROPERTIES ARCHIVE_OUTPUT_DIRECTORY archive OUTPUT_NAME msdfgen)",
+                                  "set_target_properties(msdfgen-standalone PROPERTIES OUTPUT_NAME msdfgen IMPORT_PREFIX lib)")
 
     def _configure_cmake(self):
         if self._cmake:
