@@ -43,6 +43,8 @@ class MsdfgenConan(ConanFile):
 
     def requirements(self):
         self.requires("freetype/2.10.4")
+        self.requires("lodepng/cci.20200615")
+        self.requires("tinyxml2/8.0.0")
 
     def validate(self):
         if self.settings.compiler.get_safe("cppstd"):
@@ -53,6 +55,15 @@ class MsdfgenConan(ConanFile):
     def source(self):
         tools.get(**self.conan_data["sources"][self.version],
                   destination=self._source_subfolder, strip_root=True)
+
+    def _patch_sources(self):
+        # unvendor lodepng & tinyxml2
+        tools.rmdir(os.path.join(self._source_subfolder, "lib"))
+        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
+                              "\"lib/*.cpp\"", "")
+        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
+                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
+                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen ${CONAN_LIBS})")
 
     def _configure_cmake(self):
         if self._cmake:
@@ -67,6 +78,7 @@ class MsdfgenConan(ConanFile):
         return self._cmake
 
     def build(self):
+        self._patch_sources()
         cmake = self._configure_cmake()
         cmake.build()
 
@@ -88,7 +100,10 @@ class MsdfgenConan(ConanFile):
         self.cpp_info.components["msdfgen-ext"].names["cmake_find_package"] = "msdfgen-ext"
         self.cpp_info.components["msdfgen-ext"].names["cmake_find_package_multi"] = "msdfgen-ext"
         self.cpp_info.components["msdfgen-ext"].libs = ["msdfgen-ext"]
-        self.cpp_info.components["msdfgen-ext"].requires = ["_msdfgen", "freetype::freetype"]
+        self.cpp_info.components["msdfgen-ext"].requires = [
+            "_msdfgen", "freetype::freetype",
+            "lodepng::lodepng", "tinyxml2::tinyxml2",
+        ]
 
         if self.options.utility:
             bin_path = os.path.join(self.package_folder, "bin")
