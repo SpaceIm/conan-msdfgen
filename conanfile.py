@@ -63,7 +63,7 @@ class MsdfgenConan(ConanFile):
                               "\"lib/*.cpp\"", "")
         tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
                               "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype)",
-                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen ${CONAN_LIBS})")
+                              "target_link_libraries(msdfgen-ext PUBLIC msdfgen::msdfgen Freetype::Freetype CONAN_PKG::lodepng CONAN_PKG::tinyxml2)")
 
     def _configure_cmake(self):
         if self._cmake:
