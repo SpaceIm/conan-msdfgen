@@ -115,6 +115,8 @@ class MsdfgenConan(ConanFile):
             "_msdfgen", "freetype::freetype",
             "lodepng::lodepng", "tinyxml2::tinyxml2",
         ]
+        if self.options.with_skia:
+            self.cpp_info.components["msdfgen-ext"].defines.append("MSDFGEN_USE_SKIA")
 
         if self.options.utility:
             bin_path = os.path.join(self.package_folder, "bin")
