@@ -74,7 +74,7 @@ class MsdfgenConan(ConanFile):
         if self.settings.compiler == "Visual Studio":
             tools.replace_in_file(cmakelists,
                                   "set_target_properties(msdfgen-standalone PROPERTIES ARCHIVE_OUTPUT_DIRECTORY archive OUTPUT_NAME msdfgen)",
-                                  "set_target_properties(msdfgen-standalone PROPERTIES OUTPUT_NAME msdfgen IMPORT_PREFIX lib)")
+                                  "set_target_properties(msdfgen-standalone PROPERTIES OUTPUT_NAME msdfgen IMPORT_PREFIX foo)")
 
     def _configure_cmake(self):
         if self._cmake:
