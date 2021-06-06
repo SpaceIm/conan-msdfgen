@@ -17,11 +17,15 @@ class MsdfgenConan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
+        "with_openmp": [True, False],
+        "with_skia": [True, False],
         "utility": [True, False],
     }
     default_options = {
         "shared": False,
         "fPIC": True,
+        "with_openmp": False,
+        "with_skia": False,
         "utility": True,
     }
 
@@ -51,6 +55,8 @@ class MsdfgenConan(ConanFile):
             tools.check_min_cppstd(self, 11)
         if self.settings.compiler == "Visual Studio" and self.options.shared:
             raise ConanInvalidConfiguration("msdfgen shared not supported by Visual Studio")
+        if self.options.with_skia:
+            raise ConanInvalidConfiguration("skia recipe not available yet in CCI")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version],
@@ -74,9 +80,9 @@ class MsdfgenConan(ConanFile):
             return self._cmake
         self._cmake = CMake(self)
         self._cmake.definitions["MSDFGEN_BUILD_MSDFGEN_STANDALONE"] = self.options.utility
-        self._cmake.definitions["MSDFGEN_USE_OPENMP"] = False
+        self._cmake.definitions["MSDFGEN_USE_OPENMP"] = self.options.with_openmp
         self._cmake.definitions["MSDFGEN_USE_CPP11"] = True
-        self._cmake.definitions["MSDFGEN_USE_SKIA"] = False
+        self._cmake.definitions["MSDFGEN_USE_SKIA"] = self.options.with_skia
         self._cmake.definitions["MSDFGEN_INSTALL"] = True
         self._cmake.configure()
         return self._cmake
