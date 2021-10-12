@@ -23,24 +23,6 @@ jobs:
           - { name: "GCC",   version: "10",  dockerimage: "conanio/gcc10",   buildType: "Release"  }
           - { name: "GCC",   version: "11",  dockerimage: "conanio/gcc11",   buildType: "Debug"    }
           - { name: "GCC",   version: "11",  dockerimage: "conanio/gcc11",   buildType: "Release"  }
-          - { name: "CLANG", version: "3.9", dockerimage: "conanio/clang39", buildType: "Debug"    }
-          - { name: "CLANG", version: "3.9", dockerimage: "conanio/clang39", buildType: "Release"  }
-          - { name: "CLANG", version: "4.0", dockerimage: "conanio/clang40", buildType: "Debug"    }
-          - { name: "CLANG", version: "4.0", dockerimage: "conanio/clang40", buildType: "Release"  }
-          - { name: "CLANG", version: "5.0", dockerimage: "conanio/clang50", buildType: "Debug"    }
-          - { name: "CLANG", version: "5.0", dockerimage: "conanio/clang50", buildType: "Release"  }
-          - { name: "CLANG", version: "6.0", dockerimage: "conanio/clang60", buildType: "Debug"    }
-          - { name: "CLANG", version: "6.0", dockerimage: "conanio/clang60", buildType: "Release"  }
-          - { name: "CLANG", version: "7.0", dockerimage: "conanio/clang70", buildType: "Debug"    }
-          - { name: "CLANG", version: "7.0", dockerimage: "conanio/clang70", buildType: "Release"  }
-          - { name: "CLANG", version: "8",   dockerimage: "conanio/clang8",  buildType: "Debug"    }
-          - { name: "CLANG", version: "8",   dockerimage: "conanio/clang8",  buildType: "Release"  }
-          - { name: "CLANG", version: "9",   dockerimage: "conanio/clang9",  buildType: "Debug"    }
-          - { name: "CLANG", version: "9",   dockerimage: "conanio/clang9",  buildType: "Release"  }
-          - { name: "CLANG", version: "10",  dockerimage: "conanio/clang10", buildType: "Debug"    }
-          - { name: "CLANG", version: "10",  dockerimage: "conanio/clang10", buildType: "Release"  }
-          - { name: "CLANG", version: "11",  dockerimage: "conanio/clang11", buildType: "Debug"    }
-          - { name: "CLANG", version: "11",  dockerimage: "conanio/clang11", buildType: "Release"  }
         arch:
           - { name: "x86_64"}
     name: ${{ matrix.compiler.name }} ${{ matrix.compiler.version }} ${{ matrix.compiler.buildType }}
@@ -48,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9.2'
+          python-version: "3.9.2"
       - name: Install Conan
         run: |
           pip install conan_package_tools
