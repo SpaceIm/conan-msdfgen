@@ -12,8 +12,6 @@ jobs:
           - { os: windows-2016, name: "VISUAL", version: "15", buildType: "Release" }
           - { os: windows-2019, name: "VISUAL", version: "16", buildType: "Debug"   }
           - { os: windows-2019, name: "VISUAL", version: "16", buildType: "Release" }
-          - { os: windows-2022, name: "VISUAL", version: "17", buildType: "Debug"   }
-          - { os: windows-2022, name: "VISUAL", version: "17", buildType: "Release" }
         arch:
           - { name: "x86_64"}
     name: ${{ matrix.config.name }} ${{ matrix.config.version }} ${{ matrix.config.buildType }}
