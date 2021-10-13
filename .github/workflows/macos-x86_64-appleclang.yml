@@ -1,4 +1,4 @@
-name: "macOS x86_64 Apple clang"
+name: macOS x86_64 Apple clang
 on: [push, pull_request]
 
 jobs:

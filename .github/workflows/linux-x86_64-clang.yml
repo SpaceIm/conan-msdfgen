@@ -1,4 +1,4 @@
-name: "Linux x86_64 Clang"
+name: Linux x86_64 Clang
 on: [push, pull_request]
 
 jobs:

@@ -1,4 +1,4 @@
-name: "Linux x86_64 GCC"
+name: Linux x86_64 GCC
 on: [push, pull_request]
 
 jobs:
