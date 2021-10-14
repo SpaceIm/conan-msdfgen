@@ -3,15 +3,15 @@ on: [push, pull_request]
 
 jobs:
   splitByBuildTypesTrue:
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.image }}
     strategy:
       fail-fast: false
       matrix:
         config:
-          - { os: macos-11,    version: "12.5.1", versionForConan: "12.0", buildType: "Debug"   }
-          - { os: macos-11,    version: "12.5.1", versionForConan: "12.0", buildType: "Release" }
-          - { os: macos-11,    version: "13.0",   versionForConan: "13.0", buildType: "Debug"   }
-          - { os: macos-11,    version: "13.0",   versionForConan: "13.0", buildType: "Release" }
+          - { image: macos-11, version: "12.5.1", versionForConan: "12.0", buildType: "Debug"   }
+          - { image: macos-11, version: "12.5.1", versionForConan: "12.0", buildType: "Release" }
+          - { image: macos-11, version: "13.0",   versionForConan: "13.0", buildType: "Debug"   }
+          - { image: macos-11, version: "13.0",   versionForConan: "13.0", buildType: "Release" }
     name: APPLE_CLANG ${{ matrix.config.version }} ${{ matrix.config.buildType }}
     steps:
       - uses: actions/checkout@v2

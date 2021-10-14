@@ -3,18 +3,16 @@ on: [push, pull_request]
 
 jobs:
   splitByBuildTypesTrue:
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.image }}
     strategy:
       fail-fast: false
       matrix:
         config:
-          - { os: windows-2016, name: "VISUAL", version: "15", buildType: "Debug"   }
-          - { os: windows-2016, name: "VISUAL", version: "15", buildType: "Release" }
-          - { os: windows-2019, name: "VISUAL", version: "16", buildType: "Debug"   }
-          - { os: windows-2019, name: "VISUAL", version: "16", buildType: "Release" }
-        arch:
-          - { name: "x86_64"}
-    name: ${{ matrix.config.name }} ${{ matrix.config.version }} ${{ matrix.config.buildType }}
+          - { image: windows-2016, version: "15", buildType: "Debug"   }
+          - { image: windows-2016, version: "15", buildType: "Release" }
+          - { image: windows-2019, version: "16", buildType: "Debug"   }
+          - { image: windows-2019, version: "16", buildType: "Release" }
+    name: VISUAL ${{ matrix.config.version }} ${{ matrix.config.buildType }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -26,9 +24,9 @@ jobs:
           conan user
       - name: Run
         env:
-          CONAN_ARCHS: ${{ matrix.arch.name }}
-          CONAN_BUILD_TYPES: ${{ matrix.config.buildType }}
+          CONAN_ARCHS: x86_64
           CONAN_VISUAL_VERSIONS: ${{ matrix.config.version }}
+          CONAN_BUILD_TYPES: ${{ matrix.config.buildType }}
           CONAN_CMAKE_GENERATOR: Ninja
           CC: cl.exe
           CXX: cl.exe
